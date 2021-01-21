@@ -1,0 +1,17 @@
+<div class="container">
+    <div class="reviews__item">
+        <div class="reviews__photo">
+            <img class="reviews__img" src="static/img/users/{{ user['first_name'] }}.jpg" alt="" width="40%">
+        </div>
+
+        <div class="reviews__content">
+            <div class="reviews__text">{{ user['first_name'] }} {{ user['last_name'] }}</div>
+
+            <div class="reviews__author">{{ user['state'] }}</div>
+            <div class="reviews__author">{{ user['gender'] }}</div>
+
+            <div class="reviews__author">{{ user['email'] }}</div>
+            <div class="reviews__author">{{ user['phone'] }}</div>
+        </div>
+    </div>
+</div>
