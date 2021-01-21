@@ -3,7 +3,6 @@ from typing import List
 
 import requests
 from peewee import *
-from randomuser import RandomUser
 
 # db
 db = SqliteDatabase("posts.db")
@@ -34,21 +33,22 @@ def load_rows(rows: int):
     """
     initialize_db()
 
-    for user in RandomUser.generate_users(rows):
+    data = requests.get(f"https://randomuser.me/api/?results={rows}").json()
+    for user in data["results"]:
 
         # gallery loads
-        img_file = open(f"static/img/users/{user.get_first_name()}.jpg", "wb")
-        img_file.write(requests.get(user.get_picture().format()).content)
+        img_file = open(f"static/img/users/{user['name']['first']}.jpg", "wb")
+        img_file.write(requests.get(user["picture"]["large"].format()).content)
         img_file.close()
 
         # db data loads
         User.create(
-            first_name=user.get_first_name(),
-            last_name=user.get_last_name(),
-            gender=user.get_gender(),
-            phone=user.get_phone(),
-            email=user.get_email(),
-            state=user.get_state(),
+            first_name=user["name"]["first"],
+            last_name=user["name"]["last"],
+            gender=user["gender"],
+            phone=user["phone"],
+            email=user["email"],
+            state=user["location"]["country"],
         ).save()
 
 
