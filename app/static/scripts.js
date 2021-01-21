@@ -47,5 +47,5 @@ document.getElementById("dwn-btn").addEventListener("click", function(){
       type: "get",
       data: {jsdata: ''},
       success: function(response) {download(filename, response);}
-      });
+    });
 }, false);
