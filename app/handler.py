@@ -16,6 +16,7 @@ class User(Model):
     phone = TextField()
     email = TextField()
     state = TextField()
+    img = TextField()
 
     class Meta:
         database = db
@@ -36,11 +37,6 @@ def load_rows(rows: int):
     data = requests.get(f"https://randomuser.me/api/?results={rows}").json()
     for user in data["results"]:
 
-        # gallery loads
-        img_file = open(f"static/img/users/{user['name']['first']}.jpg", "wb")
-        img_file.write(requests.get(user["picture"]["large"].format()).content)
-        img_file.close()
-
         # db data loads
         User.create(
             first_name=user["name"]["first"],
@@ -49,6 +45,7 @@ def load_rows(rows: int):
             phone=user["phone"],
             email=user["email"],
             state=user["location"]["country"],
+            img=user["picture"]["large"],
         ).save()
 
 
@@ -65,11 +62,7 @@ def show_rows() -> List[dict]:
 
 def del_rows():
     """
-    delete old information - db and images
+    delete old db
     """
-    img_dir = "static/img/users/"
-    file_list = [f for f in os.listdir(img_dir)]
-    for f in file_list:
-        os.remove(os.path.join(img_dir, f))
     if db:
         os.remove("posts.db")
