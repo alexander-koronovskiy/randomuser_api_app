@@ -1,5 +1,0 @@
-pytest
-peewee
-flask
-requests
-randomuser
