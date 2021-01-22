@@ -2,7 +2,7 @@ import os
 from typing import List
 
 import requests
-from peewee import *
+from peewee import Model, SqliteDatabase, TextField
 
 # db
 db = SqliteDatabase("posts.db")

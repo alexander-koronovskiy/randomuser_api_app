@@ -1,6 +1,6 @@
 import random
 
-from flask import Flask, json, render_template, request
+from flask import Flask, render_template, request
 from handler import del_rows, load_rows, show_rows
 
 app = Flask(__name__)
