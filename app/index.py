@@ -37,6 +37,13 @@ def users_info():
     return render_template("users_info.html", users=data)
 
 
+@app.route("/user/<user_id>")
+def user_view(user_id):
+    data = show_rows()
+    user = data[int(user_id)]
+    return render_template("user.html", user=user)
+
+
 if __name__ == "__main__":
     del_rows()
     load_rows(rows=100)
