@@ -12,7 +12,7 @@ def index():
     return render_template(
         "table_overview.html",
         title="Random user by K",
-        rows=data,
+        rows=[random.choice(data) for _ in range(10)],
         user=random.choice(data),
     )
 
@@ -39,5 +39,5 @@ def users_info():
 
 if __name__ == "__main__":
     del_rows()
-    load_rows(rows=10)
+    load_rows(rows=100)
     app.run(host="0.0.0.0")

@@ -22,31 +22,31 @@ class User(Model):
         database = db
 
 
-def initialize_db():
-    db.connect()
-    db.create_tables([User], safe=True)
-    db.close()
-
-
 def load_rows(rows: int):
     """
     loading db data when starting app
     """
-    initialize_db()
-
     data = requests.get(f"https://randomuser.me/api/?results={rows}").json()
-    for user in data["results"]:
+    users = []
 
-        # db data loads
-        User.create(
-            first_name=user["name"]["first"],
-            last_name=user["name"]["last"],
-            gender=user["gender"],
-            phone=user["phone"],
-            email=user["email"],
-            state=user["location"]["country"],
-            img=user["picture"]["large"],
-        ).save()
+    for user in data["results"]:
+        users.append(
+            {
+                "first_name": user["name"]["first"],
+                "last_name": user["name"]["last"],
+                "gender": user["gender"],
+                "phone": user["phone"],
+                "email": user["email"],
+                "state": user["location"]["country"],
+                "img": user["picture"]["large"],
+            }
+        )
+
+    User.create_table()
+
+    with db.atomic():
+        query = User.insert_many(users)
+        query.execute()
 
 
 def show_rows() -> List[dict]:
