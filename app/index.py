@@ -44,6 +44,11 @@ def user_view(user_id):
     return render_template("user.html", user=user)
 
 
+@app.errorhandler(404)
+def page_not_found(e):
+    return render_template("404.html"), 404
+
+
 if __name__ == "__main__":
     del_rows()
     load_rows(rows=100)
